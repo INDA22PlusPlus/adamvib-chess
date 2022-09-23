@@ -17,7 +17,7 @@ fn check_vertical_and_horizontal(board: [[Piece; 8]; 8], position: (i8, i8), col
     let mut up: bool = false;
     let mut down: bool = false;
 
-    let steps: i8 = if limit {1} else {7};
+    let steps: i8 = if limit {1} else {8};
 
     let (x, y) = position;
     
@@ -116,7 +116,7 @@ fn check_diagonal(board: [[Piece; 8]; 8], position: (i8, i8), color: Color, limi
     let mut stop_up_left: bool = false;
     let mut stop_up_right: bool = false;
 
-    let steps: i8 = if limit {1} else {7};
+    let steps: i8 = if limit {1} else {8};
 
     let (x, y) = position;
     
@@ -235,6 +235,11 @@ fn create_board() -> Board {
 
         board_whith_piecies[position][7] = Piece { piece_type: piece, color: Color::Black };
         board_whith_piecies[position][6] = Piece { piece_type: PieceType::Pawn, color: Color::Black };
+    }
+
+    for x in 0..8 {
+        white_protected[x][1] = true;
+        black_protected[x][6] = true;
     }
 
     Board {
