@@ -1,13 +1,14 @@
 use strum::IntoEnumIterator; // 0.17.1
 use strum_macros::EnumIter; // 0.17.1
 
-fn check_allowed_moves(board: [[Piece; 8]; 8], piece: (i8, i8)) -> Vec<(i8, i8)> {
+fn check_allowed_moves(board: Board, piece: (i8, i8)) -> Vec<(i8, i8)> {
 
     
 
     vec![(5, 5)] // Placeholder
 }
 
+// checks possible moves vertically and horizontally
 fn check_vertical_and_horizontal(board: [[Piece; 8]; 8], position: (i8, i8), color: Color, limit: bool) -> Vec<(i8, i8)> {
     let mut allowed_moves: Vec<(i8, i8)> = Vec::new();
 
@@ -106,6 +107,7 @@ fn check_vertical_and_horizontal(board: [[Piece; 8]; 8], position: (i8, i8), col
     allowed_moves
 }
 
+// checks possible moves diagonally
 fn check_diagonal(board: [[Piece; 8]; 8], position: (i8, i8), color: Color, limit: bool) -> Vec<(i8, i8)> {
     let mut allowed_moves: Vec<(i8, i8)> = Vec::new();
 
@@ -208,31 +210,44 @@ fn check_diagonal(board: [[Piece; 8]; 8], position: (i8, i8), color: Color, limi
     allowed_moves
 }
 
-fn create_board() -> [[Piece; 8]; 8] {
+// creates a board with start positions
+fn create_board() -> Board {
     // crates an 8x8 array of empt pieces
     let empty_piece: Piece = Piece {
         piece_type: PieceType::Empty,
         color: Color::White
     };
-    let mut board: [[Piece; 8]; 8] = [[empty_piece; 8]; 8];
+    let mut board_whith_piecies: [[Piece; 8]; 8] = [[empty_piece; 8]; 8];
+    let mut white_protected: [[bool; 8]; 8] = [[false; 8]; 8];
+    let mut black_protected: [[bool; 8]; 8] = [[false; 8]; 8];
 
     // loop through x positions and piecies
     for (position, piece) in (0..5).zip(PieceType::iter()) {
-        board[position][0] = Piece { piece_type: piece, color: Color::White };
-        board[position][1] = Piece { piece_type: PieceType::Pawn, color: Color::White };
+        board_whith_piecies[position][0] = Piece { piece_type: piece, color: Color::White };
+        board_whith_piecies[position][1] = Piece { piece_type: PieceType::Pawn, color: Color::White };
 
-        board[position][7] = Piece { piece_type: piece, color: Color::Black };
-        board[position][6] = Piece { piece_type: PieceType::Pawn, color: Color::Black };
+        board_whith_piecies[position][7] = Piece { piece_type: piece, color: Color::Black };
+        board_whith_piecies[position][6] = Piece { piece_type: PieceType::Pawn, color: Color::Black };
     }
     for (position, piece) in (8..5).zip(PieceType::iter()) {
-        board[position][0] = Piece { piece_type: piece, color: Color::White };
-        board[position][1] = Piece { piece_type: PieceType::Pawn, color: Color::White };
+        board_whith_piecies[position][0] = Piece { piece_type: piece, color: Color::White };
+        board_whith_piecies[position][1] = Piece { piece_type: PieceType::Pawn, color: Color::White };
 
-        board[position][7] = Piece { piece_type: piece, color: Color::Black };
-        board[position][6] = Piece { piece_type: PieceType::Pawn, color: Color::Black };
+        board_whith_piecies[position][7] = Piece { piece_type: piece, color: Color::Black };
+        board_whith_piecies[position][6] = Piece { piece_type: PieceType::Pawn, color: Color::Black };
     }
 
-    board
+    Board {
+        board: board_whith_piecies,
+        white_protected: white_protected,
+        black_protected: black_protected
+    }
+}
+
+struct Board {
+    pub board: [[Piece; 8]; 8],
+    pub white_protected: [[bool; 8]; 8],
+    pub black_protected: [[bool; 8]; 8]
 }
 
 #[derive(Copy, Clone, Debug)]
