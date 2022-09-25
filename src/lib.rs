@@ -8,6 +8,11 @@ fn check_allowed_moves(board: Board, piece: (i8, i8)) -> Vec<(i8, i8)> {
     vec![(5, 5)] // Placeholder
 }
 
+fn make_move(board: Board, from: (i8, i8), to: (i8, i8)) -> (Board, State) {
+
+    (board, State::Playing) // Placeholder
+}
+
 // checks possible moves vertically and horizontally
 fn check_vertical_and_horizontal(board: [[Piece; 8]; 8], position: (i8, i8), color: Color, limit: bool) -> Vec<(i8, i8)> {
     let mut allowed_moves: Vec<(i8, i8)> = Vec::new();
@@ -245,14 +250,16 @@ fn create_board() -> Board {
     Board {
         board: board_whith_piecies,
         white_protected: white_protected,
-        black_protected: black_protected
+        black_protected: black_protected,
+        state: State::Playing
     }
 }
 
 struct Board {
     pub board: [[Piece; 8]; 8],
     pub white_protected: [[bool; 8]; 8],
-    pub black_protected: [[bool; 8]; 8]
+    pub black_protected: [[bool; 8]; 8],
+    pub state: State
 }
 
 #[derive(Copy, Clone, Debug)]
@@ -276,4 +283,11 @@ enum PieceType {
     Queen,
     Pawn,
     Empty
+}
+
+enum State {
+    Check,
+    Checkmate,
+    Stalmate,
+    Playing
 }
