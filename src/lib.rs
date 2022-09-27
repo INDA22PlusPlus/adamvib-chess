@@ -1,14 +1,14 @@
 use strum::IntoEnumIterator; // 0.17.1
 use strum_macros::EnumIter; // 0.17.1
 
-fn check_allowed_moves(board: Board, piece: (i8, i8)) -> Vec<(i8, i8)> {
+pub fn check_allowed_moves(board: Board, piece: (i8, i8)) -> Vec<(i8, i8)> {
 
     
 
     vec![(5, 5)] // Placeholder
 }
 
-fn make_move(board: Board, from: (i8, i8), to: (i8, i8)) -> (Board, State) {
+pub fn make_move(board: Board, from: (i8, i8), to: (i8, i8)) -> (Board, State) {
 
     (board, State::Playing) // Placeholder
 }
@@ -216,7 +216,7 @@ fn check_diagonal(board: [[Piece; 8]; 8], position: (i8, i8), color: Color, limi
 }
 
 // creates a board with start positions
-fn create_board() -> Board {
+pub fn create_board() -> Board {
     // crates an 8x8 array of empt pieces
     let empty_piece: Piece = Piece {
         piece_type: PieceType::Empty,
@@ -255,7 +255,7 @@ fn create_board() -> Board {
     }
 }
 
-struct Board {
+pub struct Board {
     pub board: [[Piece; 8]; 8],
     pub white_protected: [[bool; 8]; 8],
     pub black_protected: [[bool; 8]; 8],
@@ -263,19 +263,19 @@ struct Board {
 }
 
 #[derive(Copy, Clone, Debug)]
-struct Piece {
+pub struct Piece {
     pub piece_type: PieceType,
     pub color: Color
 }
 
 #[derive(Copy, Clone, Debug, PartialEq)]
-enum Color {
+pub enum Color {
     White,
     Black
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, PartialEq)]
-enum PieceType {
+pub enum PieceType {
     Rook,
     Knight,
     Bishop,
@@ -285,7 +285,7 @@ enum PieceType {
     Empty
 }
 
-enum State {
+pub enum State {
     Check,
     Checkmate,
     Stalmate,
